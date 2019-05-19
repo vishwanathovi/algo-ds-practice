@@ -127,29 +127,29 @@ function stringParse(string) {
   stringTree.root = new Node();
 
   let currentNode = stringTree.root;
-  let parentNode = null;
   let parentStack = new Stack();
 
   for (let i = 0; i < stringArray.length; i++) {
+    let token = stringArray[i];
     switch (true) {
-      case /\(/.test(stringArray[i]):
+      case /\(/.test(token):
         // add a node to the left and move the current node to new node
         currentNode.left = new Node();
         parentStack.push(currentNode);
         currentNode = currentNode.left;
         break;
-      case /\)/.test(stringArray[i]):
+      case /\)/.test(token):
         // move up to the parent node of the element
         currentNode = parentStack.pop();
         break;
-      case /[\d]+/.test(stringArray[i]):
+      case /[\d]+/.test(token):
         // add the element in the current node and move up
-        currentNode.value = +stringArray[i];
+        currentNode.value = +token;
         currentNode = parentStack.pop();
         break;
-      case /[\+\*\-\/]/.test(stringArray[i]):
+      case /[\+\*\-\/]/.test(token):
         // add the operation into the node, add a new node to the right & descend to the right node
-        currentNode.value = stringArray[i];
+        currentNode.value = token;
         currentNode.right = new Node();
         parentStack.push(currentNode);
         currentNode = currentNode.right;
@@ -162,7 +162,15 @@ function stringParse(string) {
 }
 
 // Evaluate parsed Tree//
-function evaluateTree() {}
+function evaluateTree(node) {
+  if (/\d+/g.test(node.value)) {
+    return node.value;
+  } else {
+    return eval(
+      evaluateTree(node.left) + node.value + evaluateTree(node.right)
+    );
+  }
+}
 
 function inOrderTraverse(node) {
   if (!node) return;
@@ -172,6 +180,8 @@ function inOrderTraverse(node) {
 }
 
 let string = "((3+(4-5))*6)";
-let parsedTree = stringParse(string);
-console.log(parsedTree);
-inOrderTraverse(parsedTree.root);
+let string2 = "((10+4)*(5+9))";
+let parsedTree = stringParse(string2);
+// console.log(parsedTree);
+// inOrderTraverse(parsedTree.root);
+console.log(evaluateTree(parsedTree.root));
