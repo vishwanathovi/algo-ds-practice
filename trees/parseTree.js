@@ -179,9 +179,24 @@ function inOrderTraverse(node) {
   inOrderTraverse(node.right);
 }
 
+function preOrder(node) {
+  if (!node) return;
+  console.log(node.value);
+  preOrder(node.left);
+  preOrder(node.right);
+}
+
+function postOrder(node) {
+  if (!node) return;
+  postOrder(node.left);
+  postOrder(node.right);
+  console.log(node.value);
+}
+
 let string = "((3+(4-5))*6)";
 let string2 = "((10+4)*(5+9))";
 let parsedTree = stringParse(string2);
 // console.log(parsedTree);
 // inOrderTraverse(parsedTree.root);
+preOrder(parsedTree.root);
 console.log(evaluateTree(parsedTree.root));
