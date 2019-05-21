@@ -79,6 +79,7 @@ class BinaryHeap {
     }
 
     // replace the root value with the removed value
+
     // keep moving the value down as long as the value is greater than the children
   }
   isEmpty() {
