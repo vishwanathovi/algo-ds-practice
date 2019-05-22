@@ -12,16 +12,17 @@ function printSubstrings(string) {
     return;
   }
   // recuring case
-  let subArr = [];
-  let subStr = string;
-  console.log(subStr);
+  console.log(string);
+
+  let subArr, subStr;
+
   for (let i = 0; i < string.length; i++) {
     subArr = string.split("");
     subArr.splice(i, 1);
     subStr = subArr.join("");
     if (!currentSubstrings.has(subStr)) {
-      printSubstrings(subStr);
       currentSubstrings.add(subStr);
+      printSubstrings(subStr);
     }
   }
 }
