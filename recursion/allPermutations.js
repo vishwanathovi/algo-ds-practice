@@ -12,7 +12,7 @@ function allPermutations(remainingString, permanentString = "") {
     let remainingArray2 = remainingString2.split("");
     remainingArray2.splice(i, 1);
     remainingString2 = remainingArray2.join("");
-    allPermutations(remainingString2, permanentString2);
+    allPermutations(remainingString2, permanentString2); //
   }
 }
 
