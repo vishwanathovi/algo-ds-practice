@@ -41,7 +41,7 @@ newGraph.addEdge("6", "5");
 
 let finalValue = false;
 function findIfThereIsRoute(graph, node1, node2, traversedNodes = []){
-  console.log(node1, node2, traversedNodes)
+  // console.log(node1, node2, traversedNodes)
   if (graph[node1].includes(node2)){
     finalValue = true;
   }
@@ -54,8 +54,15 @@ function findIfThereIsRoute(graph, node1, node2, traversedNodes = []){
   }
 }
 
-newGraph.showConnections();
+// Approach 1:
+// take all the next nodes, recursively travel till you find the node in every path
+// execution stops if the element is found or if the same node is repeated in the path
+// time complexity: O(v+e) - between v & e, whichever is larger
+// space complexity: O(n*e)
+
+
+// newGraph.showConnections();
 console.table(newGraph.adjacencyList);
 
-findIfThereIsRoute(newGraph.adjacencyList, "1", "5")
+findIfThereIsRoute(newGraph.adjacencyList, "4", "1")
 console.log(finalValue)
