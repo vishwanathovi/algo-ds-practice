@@ -10,8 +10,8 @@ class Graph {
     return this.numberOfNodes;
   }
   addEdge(node1, node2) {
+    if (!this.adjacencyList[node1] || !this.adjacencyList[node2]) return console.warn("Invalid node name!");
     this.adjacencyList[node1].push(node2);
-    // this.adjacencyList[node2].push(node1);
     return this;
   }
   showConnections() {
@@ -38,7 +38,7 @@ newGraph.addEdge("R21S2", "RS3");
 newGraph.addEdge("R22S2", "RS3");
 newGraph.addEdge("RS3", "Golden bridge");
 
-console.table(newGraph.adjacencyList);
+// console.table(newGraph.adjacencyList);
 
 // Use BFS for finding the shortest path between two nodes
 // no weightage on the edges. Just find the route with less nodes to traverse
@@ -52,23 +52,48 @@ console.table(newGraph.adjacencyList);
  */
   function shortestPath(graph, node1, node2){
     let count = 1;
-    let currentNodeQueue = graph[node1]
+    let currentNodeQueue = [...graph[node1]];
     let nextNodeQueue = [];
+    let visitedNodes = [node1];
+
     while(currentNodeQueue.length){
       let nextNode = currentNodeQueue.shift();
       if (nextNode === node2){
-        break;
+        return count;
       } else {
-        nextNodeQueue = nextNodeQueue.concat(graph[nextNode]);
+        if (!visitedNodes.includes(nextNode)){ // track visited nodes
+          visitedNodes.push(nextNode);
+          nextNodeQueue = nextNodeQueue.concat(graph[nextNode]);
+        }
       }
 
-      if (!currentNodeQueue.length){
+      if (!currentNodeQueue.length){ // level switch
         count++;
         currentNodeQueue = nextNodeQueue;
         nextNodeQueue = [];
       }
     }
-    return count;
+    console.warn("Not found!")
+    return -1;
   }
 
-  console.log(shortestPath(newGraph.adjacencyList, "Twin peaks", "Golden bridge"))
+  // console.log(shortestPath(newGraph.adjacencyList, "Twin peaks", "Golden bridge"))
+
+  // Excercise 2: Handle cases of loops that will create infinite execution
+
+  let loopedGraph = new Graph();
+  loopedGraph.addVertex("0");
+  loopedGraph.addVertex("1");
+  loopedGraph.addVertex("2");
+  loopedGraph.addVertex("3");
+  loopedGraph.addVertex("4");
+  loopedGraph.addVertex("5");
+  loopedGraph.addEdge("0", "1");
+  loopedGraph.addEdge("0", "2");
+  loopedGraph.addEdge("2", "3");
+  loopedGraph.addEdge("3", "0");
+  loopedGraph.addEdge("3", "4");
+  loopedGraph.addEdge("4", "5");
+
+  console.log(shortestPath(loopedGraph.adjacencyList, "0", "5"))
+  console.table(loopedGraph.adjacencyList);
