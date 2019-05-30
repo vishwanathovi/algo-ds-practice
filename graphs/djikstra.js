@@ -46,12 +46,6 @@ newGraph.addEdge("RS3", "Golden bridge", 4);
 // newGraph.showConnections();
 
 function djikstraShortestPath(graph, node1, node2){
-  // have a object to keep every node and best case distance
-  // travese through all the adjacent nodes of the currentNode
-    // check if they are available in the object
-      // if yes, check if the current weight + edge weight is less than the current value in the object
-      // if not, add the weight mapping to the object
-    // move to the next node which has lowest value
   let currentNode = node1;
   let visitedNodes = [node1];
   let bestWeight = {
