@@ -50,19 +50,20 @@ newGraph.addEdge("RS3", "Golden bridge");
  * @param {String} node2
  * @return {Number} distance
  */
+
   function shortestPath(graph, node1, node2){
     let count = 1;
     let currentNodeQueue = [...graph[node1]];
     let nextNodeQueue = [];
-    let visitedNodes = [node1];
+    let visitedNodes = new Set([node1]);
 
     while(currentNodeQueue.length){
       let nextNode = currentNodeQueue.shift();
       if (nextNode === node2){
         return count;
       } else {
-        if (!visitedNodes.includes(nextNode)){ // track visited nodes
-          visitedNodes.push(nextNode);
+        if (!visitedNodes.has(nextNode)){ // track visited nodes
+          visitedNodes.add(nextNode);
           nextNodeQueue = nextNodeQueue.concat(graph[nextNode]);
         }
       }
@@ -79,7 +80,7 @@ newGraph.addEdge("RS3", "Golden bridge");
 
   // console.log(shortestPath(newGraph.adjacencyList, "Twin peaks", "Golden bridge"))
 
-  // Excercise 2: Handle cases of loops that will create infinite execution
+  // Exercise 2: Handle cases of loops that will create infinite execution
 
   let loopedGraph = new Graph();
   loopedGraph.addVertex("0");
@@ -95,5 +96,39 @@ newGraph.addEdge("RS3", "Golden bridge");
   loopedGraph.addEdge("3", "4");
   loopedGraph.addEdge("4", "5");
 
-  console.log(shortestPath(loopedGraph.adjacencyList, "0", "5"))
+  console.log(shortestPath(loopedGraph.adjacencyList, "0", "5"));
   console.table(loopedGraph.adjacencyList);
+
+  // Exercise 3: Try to reduce the space usage
+      // Just reduced the visitedNodes to a hash table from Array
+      // further improvements need to be discussed
+
+  // Exercise 4: Return the path instead of the count
+      //
+
+  function shortestPath2(graph, node1, node2){
+    let count = 1;
+    let currentNodeQueue = [...graph[node1]];
+    let nextNodeQueue = [];
+    let visitedNodes = new Set([node1]);
+
+    while(currentNodeQueue.length){
+      let nextNode = currentNodeQueue.shift();
+      if (nextNode === node2){
+        return count;
+      } else {
+        if (!visitedNodes.has(nextNode)){ // track visited nodes
+          visitedNodes.add(nextNode);
+          nextNodeQueue = nextNodeQueue.concat(graph[nextNode]);
+        }
+      }
+
+      if (!currentNodeQueue.length){ // level switch
+        count++;
+        currentNodeQueue = nextNodeQueue;
+        nextNodeQueue = [];
+      }
+    }
+    console.warn("Not found!")
+    return -1;
+  }
