@@ -3,7 +3,6 @@
 function rowColumn(number){
   let floorValue = Math.floor(Math.sqrt(number));
   let ceilValue = Math.ceil(Math.sqrt(number));
-
   return {
     rows: floorValue*ceilValue < number? ceilValue: floorValue ,
     columns: ceilValue
